@@ -30,4 +30,4 @@ samtools sort -o $output_path/barcode01_sort.bam $output_path/barcode01.bam
 samtools index $output_path/barcode01_sort.bam
 
 # mapping stats
-samtools flagstat $output_path/barcode01_sort.bam > barcode01_stats.txt
+samtools flagstat $output_path/barcode01_sort.bam > $output_path/barcode01_stats.txt
