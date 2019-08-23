@@ -5,8 +5,8 @@
 #PBS -l walltime=20:00:00                                                
 #PBS -M rx32940@uga.edu                                                  
 #PBS -m abe                                                              
-#PBS -o /scratch/rx32940                        
-#PBS -e /scratch/rx32940                        
+#PBS -o /scratch/rx32940/minion_blood_simulation/test_runs/map                        
+#PBS -e /scratch/rx32940/minion_blood_simulation/test_runs/map                        
 #PBS -j oe 
 
 cd $PBS_O_WORKDIR
@@ -30,4 +30,4 @@ samtools sort -o $output_path/barcode01_sort.bam $output_path/barcode01.bam
 samtools index $output_path/barcode01_sort.bam
 
 # mapping stats
-samtools flagstat $output_path/barcode01_sort.bam
+samtools flagstat $output_path/barcode01_sort.bam > barcode01_stats.txt
