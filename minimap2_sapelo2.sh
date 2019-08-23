@@ -18,16 +18,22 @@ data_path="/scratch/rx32940/minion_blood_simulation/data"
 output_path="/scratch/rx32940/minion_blood_simulation/test_runs/map"
 
 # for nanopore mapping
-minimap2 -ax map-ont $data_path/Lepto_ref/Leptospira_interrogans_Copenhageni.fa $data_path/demultiplex2/barcode01/barcode01.fastq > $output_path/barcode01.sam
 
-# sam to bam 
-samtools view -b -o $output_path/barcode01.bam $output_path/barcode01.sam
+for file in data_path/demultiplex2/barcode*/barcode*; do
+    barcode=$(basename "$file")
+    minimap2 -ax map-ont $data_path/Lepto_ref/Leptospira_interrogans_Copenhageni_CI.fa $file > $output_path/${barcode}_CI.sam
+    minimap2 -ax map-ont $data_path/Lepto_ref/Leptospira_interrogans_Copenhageni_CII.fa $file > $output_path/${barcode}_CII.sam
 
-# sort alignment by leftmost chromosomal coordinates
-samtools sort -o $output_path/barcode01_sort.bam $output_path/barcode01.bam
+    # sam to bam 
+    samtools view -b -o $output_path/$barcode.bam $output_path/$barcode.sam
 
-# indexing the bam file
-samtools index $output_path/barcode01_sort.bam
+    # sort alignment by leftmost chromosomal coordinates
+    samtools sort -o $output_path/${barcode}_sort.bam $output_path/$barcode.bam
 
-# mapping stats
-samtools flagstat $output_path/barcode01_sort.bam > $output_path/barcode01_stats.txt
+    # indexing the bam file
+    samtools index $output_path/${barcode}_sort.bam
+
+    # mapping stats
+    samtools flagstat $output_path/${barcode}_sort.bam > $output_path/${barcode}_stats.txt
+
+done
