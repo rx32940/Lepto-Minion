@@ -22,19 +22,23 @@ output_path="/scratch/rx32940/minion_blood_simulation/test_runs/map"
 for file in $data_path/demultiplex2/barcode*/; do
     barcode=$(basename "$file")
     echo $barcode
-    minimap2 -ax map-ont $data_path/Lepto_ref/Leptospira_interrogans_Copenhageni_CI.fa $barcode.fastq > $output_path/${barcode}_CI.sam
-    minimap2 -ax map-ont $data_path/Lepto_ref/Leptospira_interrogans_Copenhageni_CII.fa $barcode.fastq > $output_path/${barcode}_CII.sam
+    minimap2 -ax map-ont $data_path/Lepto_ref/Leptospira_interrogans_Copenhageni_CI.fa $data_path/demultiplex2/$barcode/$barcode.fastq > $output_path/${barcode}_CI.sam
+    minimap2 -ax map-ont $data_path/Lepto_ref/Leptospira_interrogans_Copenhageni_CII.fa $data_path/demultiplex2/$barcode/$barcode.fastq > $output_path/${barcode}_CII.sam
 
     # sam to bam 
-    samtools view -b -o $output_path/$barcode.bam $output_path/$barcode.sam
+    samtools view -b -o $output_path/${barcode}_CI.bam $output_path/${barcode}_CI.sam
+    samtools view -b -o $output_path/${barcode}_CII.bam $output_path/${barcode}_CII.sam
 
     # sort alignment by leftmost chromosomal coordinates
-    samtools sort -o $output_path/${barcode}_sort.bam $output_path/$barcode.bam
+    samtools sort -o $output_path/${barcode}_CI_sort.bam $output_path/${barcode}_CI.bam
+    samtools sort -o $output_path/${barcode}_CII_sort.bam $output_path/${barcode}_CII.bam
 
     # indexing the bam file
-    samtools index $output_path/${barcode}_sort.bam
+    samtools index $output_path/${barcode}_CI_sort.bam
+    samtools index $output_path/${barcode}_CII_sort.bam
 
     # mapping stats
-    samtools flagstat $output_path/${barcode}_sort.bam > $output_path/${barcode}_stats.txt
+    samtools flagstat $output_path/${barcode}_CI_sort.bam > $output_path/${barcode}_CI_stats.txt
+    samtools flagstat $output_path/${barcode}_CII_sort.bam > $output_path/${barcode}_CII_stats.txt
 
 done
