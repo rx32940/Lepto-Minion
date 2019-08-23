@@ -21,8 +21,9 @@ output_path="/scratch/rx32940/minion_blood_simulation/test_runs/map"
 
 for file in data_path/demultiplex2/barcode*/barcode*; do
     barcode=$(basename "$file")
-    minimap2 -ax map-ont $data_path/Lepto_ref/Leptospira_interrogans_Copenhageni_CI.fa $file > $output_path/${barcode}_CI.sam
-    minimap2 -ax map-ont $data_path/Lepto_ref/Leptospira_interrogans_Copenhageni_CII.fa $file > $output_path/${barcode}_CII.sam
+    echo $barcode
+    minimap2 -ax map-ont $data_path/Lepto_ref/Leptospira_interrogans_Copenhageni_CI.fa $barcode.fastq > $output_path/${barcode}_CI.sam
+    minimap2 -ax map-ont $data_path/Lepto_ref/Leptospira_interrogans_Copenhageni_CII.fa $barcode.fastq > $output_path/${barcode}_CII.sam
 
     # sam to bam 
     samtools view -b -o $output_path/$barcode.bam $output_path/$barcode.sam
