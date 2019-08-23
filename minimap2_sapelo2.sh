@@ -1,4 +1,4 @@
-!#/bin/bash
+#!/bin/bash
 #PBS -q batch                                                            
 #PBS -N minimap2                                            
 #PBS -l nodes=1:ppn=2 -l mem=20gb                                        
@@ -13,5 +13,9 @@ cd $PBS_O_WORKDIR
 
 ml minimap2/2.13-foss-2016b
 
-minimap2 
+data_path="/scratch/rx32940/minion_blood_simulation/data"
+output_path="/scratch/rx32940/minion_blood_simulation/test_runs/map"
+
+# for nanopore mapping
+minimap2 -ax map-ont $data_path/Lepto_ref/Leptospira_interrogans_Copenhageni.fa $data_path/demultiplex2/barcode01/barcode01.fastq > $output_path/barcode01.sam
 
