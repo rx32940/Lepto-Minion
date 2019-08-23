@@ -19,7 +19,7 @@ output_path="/scratch/rx32940/minion_blood_simulation/test_runs/map"
 
 # for nanopore mapping
 
-for file in data_path/demultiplex2/barcode*/barcode*; do
+for file in $data_path/demultiplex2/barcode*/; do
     barcode=$(basename "$file")
     echo $barcode
     minimap2 -ax map-ont $data_path/Lepto_ref/Leptospira_interrogans_Copenhageni_CI.fa $barcode.fastq > $output_path/${barcode}_CI.sam
