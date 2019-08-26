@@ -43,7 +43,7 @@ for file in $data_path/demultiplex2/barcode*/; do
 done
 
 # map to bovine reference genome
-minimap2 -ax map-ont $data_path/Bovine_ref/GCF_002263795.1_ARS-UCD1.2_genomicUnpaired.fasta $data_path/demultiplex2/barcode01/barcode01.fastq > $outpur_path/map_bovine/barcode01.sam
+minimap2 -ax map-ont $data_path/Bovine_ref/GCF_002263795.1_ARS-UCD1.2_genomicUnpaired.fasta $data_path/demultiplex2/barcode01/barcode01.fastq > $output_path/map_bovine/barcode01.sam
 
 samtools view -b -o $output_path/map_bovine/barcode01.bam $$output_path/map_bovine/barcode01.sam
 
