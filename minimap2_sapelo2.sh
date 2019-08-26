@@ -47,7 +47,7 @@ for file in $data_path/demultiplex2/barcode*/; do
     barcode=$(basename "$file")
     minimap2 -ax map-ont $data_path/Bovine_ref/GCF_002263795.1_ARS-UCD1.2_genomicUnpaired.fasta $data_path/demultiplex2/$barcode/$barcode.fastq > $output_path/map_bovine/$barcode.sam
 
-    samtools view -b -o $output_path/map_bovine/$$barcode.bam $output_path/map_bovine/$barcode.sam
+    samtools view -b -o $output_path/map_bovine/$barcode.bam $output_path/map_bovine/$barcode.sam
 
     samtools sort -o $output_path/map_bovine/${barcode}_sorted.bam $output_path/map_bovine/$barcode.bam
 
