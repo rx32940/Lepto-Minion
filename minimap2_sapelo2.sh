@@ -45,7 +45,7 @@ output_path="/scratch/rx32940/minion_blood_simulation/test_runs/map"
 # map to bovine reference genome
 for file in $data_path/demultiplex2/barcode*/; do
     barcode=$(basename "$file")
-    minimap2 -ax map-ont $data_path/Bovine_ref/GCF_002263795.1_ARS-UCD1.2_genomicUnpaired.fasta $data_path/demultiplex2/barcode01/$barcode.fastq > $output_path/map_bovine/$barcode.sam
+    minimap2 -ax map-ont $data_path/Bovine_ref/GCF_002263795.1_ARS-UCD1.2_genomicUnpaired.fasta $data_path/demultiplex2/$barcode/$barcode.fastq > $output_path/map_bovine/$barcode.sam
 
     samtools view -b -o $output_path/map_bovine/barcode01.bam $output_path/map_bovine/$barcode.sam
 
