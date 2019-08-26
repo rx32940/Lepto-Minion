@@ -17,28 +17,38 @@ module load SAMtools/1.9-foss-2016b
 data_path="/scratch/rx32940/minion_blood_simulation/data"
 output_path="/scratch/rx32940/minion_blood_simulation/test_runs/map"
 
-# for nanopore mapping
-
+# map to lepto reference genome
 for file in $data_path/demultiplex2/barcode*/; do
     barcode=$(basename "$file")
     echo $barcode
-    minimap2 -ax map-ont $data_path/Lepto_ref/Leptospira_interrogans_Copenhageni_CI.fa $data_path/demultiplex2/$barcode/$barcode.fastq > $output_path/${barcode}_CI.sam
-    minimap2 -ax map-ont $data_path/Lepto_ref/Leptospira_interrogans_Copenhageni_CII.fa $data_path/demultiplex2/$barcode/$barcode.fastq > $output_path/${barcode}_CII.sam
+    minimap2 -ax map-ont $data_path/Lepto_ref/Leptospira_interrogans_Copenhageni_CI.fa $data_path/demultiplex2/$barcode/$barcode.fastq > $output_path/map_lepto/${barcode}_CI.sam
+    minimap2 -ax map-ont $data_path/Lepto_ref/Leptospira_interrogans_Copenhageni_CII.fa $data_path/demultiplex2/$barcode/$barcode.fastq > $output_path/map_lepto/${barcode}_CII.sam
 
     # sam to bam 
-    samtools view -b -o $output_path/${barcode}_CI.bam $output_path/${barcode}_CI.sam
-    samtools view -b -o $output_path/${barcode}_CII.bam $output_path/${barcode}_CII.sam
+    samtools view -b -o $output_path/map_lepto/${barcode}_CI.bam $output_path/map_lepto/${barcode}_CI.sam
+    samtools view -b -o $output_path/map_lepto/${barcode}_CII.bam $output_path/map_lepto/${barcode}_CII.sam
 
     # sort alignment by leftmost chromosomal coordinates
-    samtools sort -o $output_path/${barcode}_CI_sort.bam $output_path/${barcode}_CI.bam
-    samtools sort -o $output_path/${barcode}_CII_sort.bam $output_path/${barcode}_CII.bam
+    samtools sort -o $output_path/map_lepto/${barcode}_CI_sort.bam $output_path/map_lepto/${barcode}_CI.bam
+    samtools sort -o $output_path/map_lepto/${barcode}_CII_sort.bam $output_path/map_lepto/${barcode}_CII.bam
 
     # indexing the bam file
-    samtools index $output_path/${barcode}_CI_sort.bam
-    samtools index $output_path/${barcode}_CII_sort.bam
+    samtools index $output_path/map_lepto/${barcode}_CI_sort.bam
+    samtools index $output_path/map_lepto/${barcode}_CII_sort.bam
 
     # mapping stats
-    samtools flagstat $output_path/${barcode}_CI_sort.bam > $output_path/${barcode}_CI_stats.txt
-    samtools flagstat $output_path/${barcode}_CII_sort.bam > $output_path/${barcode}_CII_stats.txt
+    samtools flagstat $output_path/map_lepto/${barcode}_CI_sort.bam > $output_path/map_lepto/${barcode}_CI_stats.txt
+    samtools flagstat $output_path/map_lepto/${barcode}_CII_sort.bam > $output_path/map_lepto/${barcode}_CII_stats.txt
 
 done
+
+# map to bovine reference genome
+minimap2 -ax map-ont $data_path/Bovine_ref/GCF_002263795.1_ARS-UCD1.2_genomicUnpaired.fasta $data_path/demultiplex2/barcode01/barcode01.fastq > $outpur_path/map_bovine/barcode01.sam
+
+samtools view -b -o $output_path/map_bovine/barcode01.bam $$output_path/map_bovine/barcode01.sam
+
+samtools sort -o $output_path/map_bovine/barcode01_sorted.bam $output_path/map_bovine/barcode01.bam
+
+samtools index $output_path/map_bovine/barcode01_sorted.bam
+
+samtools flagstat $output_path/map_bovine/barcode01_sorted.bam
