@@ -16,5 +16,12 @@ module load FastQC/0.11.8-Java-1.8.0_144
 data_path="/scratch/rx32940/minion_blood_simulation/data/PolyAExperiment"
 output_path="/scratch/rx32940/minion_blood_simulation/runs_polyA/QC"
 
-cat $data_path/barcode03/*fastq > $data_path/barcode03/barcode03.fastq
-fastqc $data_path/barcode03/barcode03.fastq -o $output_path
+for dir in $data_path/barcode*; do
+
+    barcode=$(basename "$dir")
+    
+    cat $data_path/$barcode/*fastq > $data_path/$barcode/$barcode.fastq
+
+    fastqc $data_path/$barcode/$barcode.fastq -o $output_path
+
+done
