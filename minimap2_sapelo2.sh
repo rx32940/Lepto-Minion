@@ -53,5 +53,5 @@ for file in $data_path/demultiplex2/barcode*/; do
 
     samtools index $output_path/map_bovine/${barcode}_sorted.bam
 
-    samtools flagstat $output_path/map_bovine/${barcode}_sorted.bam
+    samtools flagstat $output_path/map_bovine/${barcode}_sorted.bam > $output_path/map_bovine/${barcode}_stats.txt
 done
