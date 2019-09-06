@@ -5,8 +5,8 @@
 #PBS -l walltime=20:00:00                                                
 #PBS -M rx32940@uga.edu                                                  
 #PBS -m abe                                                              
-#PBS -o /scratch/rx32940/minion_blood_simulation/test_runs/map                        
-#PBS -e /scratch/rx32940/minion_blood_simulation/test_runs/map                        
+#PBS -o /scratch/rx32940/minion_blood_simulation/runs_polyA/map                        
+#PBS -e /scratch/rx32940/minion_blood_simulation/runs_polyA/map                        
 #PBS -j oe 
 
 cd $PBS_O_WORKDIR
