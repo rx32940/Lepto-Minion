@@ -13,7 +13,15 @@ cd $PBS_O_WORKDIR
 
 module load FastQC/0.11.8-Java-1.8.0_144
 
-path="/scratch/rx32940/minion_blood_simulation/test_runs/data/demultiplex2"
+data_path="/scratch/rx32940/minion_blood_simulation/data/PolyAExperiment"
+output_path="/scratch/rx32940/minion_blood_simulation/runs_polyA/QC"
 
-cat $path/barcode01/*fastq > $path/barcode01.fastq
-fastqc $path/barcode01.fastq -o $path
+for dir in $data_path/barcode*; do
+
+    barcode=$(basename "$dir")
+    
+    cat $data_path/$barcode/*fastq > $data_path/$barcode/$barcode.fastq
+
+    fastqc $data_path/$barcode/$barcode.fastq -o $output_path
+
+done
